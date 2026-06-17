@@ -1,0 +1,64 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qwen Text LoRA Finetune Report</title>
+  <style>
+    body{margin:0;background:#f6f1e7;color:#23211c;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.58}
+    main{width:min(1180px,calc(100vw - 28px));margin:0 auto;padding:28px 0 64px}
+    section{background:#fffdf8;border:1px solid #d8c8a4;border-radius:8px;padding:22px;margin:18px 0}
+    h1{font-size:clamp(32px,5vw,54px);line-height:1.05;margin:0 0 12px}
+    h2{font-size:27px;margin:0 0 12px}
+    img{max-width:100%;height:auto;display:block;border-radius:4px}
+    .note{border-left:4px solid #b53a31;background:#fff3ee;padding:13px 15px;color:#23211c}
+    table{width:100%;border-collapse:collapse;background:white;font-size:14px}
+    td,th{border:1px solid #e2d6bd;padding:8px 10px;text-align:left;vertical-align:top}
+    th{background:#f1e8d7}
+    code{background:#f0e8d7;border:1px solid #dfd0ae;border-radius:5px;padding:1px 5px}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Qwen Text LoRA Finetune Report</h1>
+  <p>Small controlled LoRA experiment on 100 synthetic text-poster images. The dataset includes English-only, Arabic-only, stacked bilingual, and structured bilingual layouts.</p>
+  <section>
+    <h2>Training Setup</h2>
+    <p>Model: <code>Qwen-Image-Edit-2511</code> used as text-to-image through the shared Qwen Image transformer. Training resolution: 512x512. Adapter: rank 8 attention LoRA on Q/K/V/output projections. Trainable parameters: 14,745,600. Steps: 800. Learning rate: 5e-05.</p>
+    <p>Saved adapter: <a href="../checkpoints/qwen_text_lora/pytorch_lora_weights.safetensors">pytorch_lora_weights.safetensors</a></p>
+  </section>
+  <section>
+    <h2>Result Summary</h2>
+    <p class="note">This run does not solve Arabic text rendering. The LoRA learned the synthetic poster prior strongly and improves simple English poster text, but the before/after generations do not show reliable exact Arabic or bilingual transcription. Treat it as a useful pipeline proof, not a quality fix.</p>
+    <p>The main evidence is visual: compare the base and LoRA columns below. The LoRA changes layout/style toward the synthetic dataset, makes English prompts cleaner in this small test, and still leaves Arabic glyph identity/word correctness weak.</p>
+  </section>
+  <section>
+    <h2>Dataset Contact Sheet</h2>
+    <img src="assets/contact_sheet.jpg" alt="Synthetic training dataset contact sheet">
+  </section>
+  <section>
+    <h2>Training Loss</h2>
+    <p>Final loss: 0.010032; mean of last 20 logged steps: 0.053026. The curve is noisy because every step samples a different image and noise timestep.</p>
+    <img src="assets/training_loss_plot.jpg" alt="Training loss plot">
+  </section>
+  <section>
+    <h2>Before / After Generations</h2>
+    <img src="assets/before_after_contact_sheet.jpg" alt="Before and after LoRA generation contact sheet">
+  </section>
+  <section>
+    <h2>Evaluation Prompts</h2>
+    <table><thead><tr><th>ID</th><th>Type</th><th>Prompt</th></tr></thead><tbody><tr><td>seen_english</td><td>seen</td><td>Create a clean white poster with the exact English text "clarity design signal".</td></tr>
+<tr><td>seen_arabic</td><td>seen</td><td>Create a clean white poster with the exact Arabic text "ثابت دقيق حرف شكل".</td></tr>
+<tr><td>seen_mixed</td><td>seen</td><td>Create a clean bilingual poster with the exact English text "stable exact glyph shape" and the exact Arabic text "ثابت دقيق حرف شكل".</td></tr>
+<tr><td>heldout_english</td><td>heldout</td><td>Create a clean white poster with the exact English text "fresh marker system layout".</td></tr>
+<tr><td>heldout_arabic</td><td>heldout</td><td>Create a clean white poster with the exact Arabic text "عنوان واضح مباشر حاد".</td></tr>
+<tr><td>heldout_mixed</td><td>heldout</td><td>Create a clean bilingual poster with the exact English text "sharp layout focus" and the exact Arabic text "وضوح حاد مباشر".</td></tr></tbody></table>
+  </section>
+  <section>
+    <h2>Recommendation</h2>
+    <p>For a real Arabic poster fix, this result says the pipeline is working but the dataset is too small and too synthetic. Next run should use thousands of high-quality rendered poster crops, include exact OCR/CLIP-style text scoring, and likely target the non-catastrophic text-sensitive layer bands from the ablation probe rather than only generic attention LoRA.</p>
+  </section>
+</main>
+</body>
+</html>
