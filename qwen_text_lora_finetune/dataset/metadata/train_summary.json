@@ -6,5 +6,13 @@
     "arabic_single": 25,
     "mixed_stacked": 25,
     "mixed_structured": 25
-  }
+  },
+  "english_word_count_range": [
+    10,
+    20
+  ],
+  "arabic_word_count_range": [
+    5,
+    10
+  ]
 }

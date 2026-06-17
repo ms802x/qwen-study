@@ -45,37 +45,37 @@ CASES = [
         "id": "seen_english",
         "kind": "seen",
         "seed": 41001,
-        "prompt": 'Create a clean white poster with the exact English text "clarity design signal".',
+        "prompt": 'Create a clean white poster with the exact English text "clarity design signal layout research quality poster focus reader modern".',
     },
     {
         "id": "seen_arabic",
         "kind": "seen",
         "seed": 41002,
-        "prompt": 'Create a clean white poster with the exact Arabic text "ثابت دقيق حرف شكل".',
+        "prompt": 'Create a clean white poster with the exact Arabic text "بحث جودة ملصق تركيز قارئ حديث توازن".',
     },
     {
         "id": "seen_mixed",
         "kind": "seen",
         "seed": 41003,
-        "prompt": 'Create a clean bilingual poster with the exact English text "stable exact glyph shape" and the exact Arabic text "ثابت دقيق حرف شكل".',
+        "prompt": 'Create a clean bilingual poster with the exact English text "stable exact glyph shape spacing marker caption studio clean strong bright simple sharp fresh direct" and the exact Arabic text "ثابت دقيق حرف شكل مسافة علامة شرح".',
     },
     {
         "id": "heldout_english",
         "kind": "heldout",
         "seed": 41004,
-        "prompt": 'Create a clean white poster with the exact English text "fresh marker system layout".',
+        "prompt": 'Create a clean white poster with the exact English text "fresh marker system layout careful crafted language sample training visible organized precise readable baseline".',
     },
     {
         "id": "heldout_arabic",
         "kind": "heldout",
         "seed": 41005,
-        "prompt": 'Create a clean white poster with the exact Arabic text "عنوان واضح مباشر حاد".',
+        "prompt": 'Create a clean white poster with the exact Arabic text "رسالة مرتبة واضحة مصقولة لغة عينة تدريب ظاهر".',
     },
     {
         "id": "heldout_mixed",
         "kind": "heldout",
         "seed": 41006,
-        "prompt": 'Create a clean bilingual poster with the exact English text "sharp layout focus" and the exact Arabic text "وضوح حاد مباشر".',
+        "prompt": 'Create a clean bilingual poster with the exact English text "sharp layout focus modern editorial identity printed surface minimal confident typography composition" and the exact Arabic text "وضوح حاد مباشر منظم متقن مقروء".',
     },
 ]
 
@@ -201,7 +201,7 @@ def write_report(eval_rows: list[dict]) -> None:
 <body>
 <main>
   <h1>Qwen Text LoRA Finetune Report</h1>
-  <p>Small controlled LoRA experiment on 100 synthetic text-poster images. The dataset includes English-only, Arabic-only, stacked bilingual, and structured bilingual layouts.</p>
+  <p>Small controlled LoRA experiment on 100 synthetic text-poster images. The follow-up dataset forces English targets into the 10-20 word range and keeps Arabic targets shorter so the glyphs remain visually inspectable at 512px.</p>
   <section>
     <h2>Training Setup</h2>
     <p>Model: <code>Qwen-Image-Edit-2511</code> used as text-to-image through the shared Qwen Image transformer. Training resolution: 512x512. Adapter: rank {summary['rank']} attention LoRA on Q/K/V/output projections. Trainable parameters: {summary['trainable_parameters']:,}. Steps: {summary['steps']}. Learning rate: {summary['lr']}.</p>
@@ -209,8 +209,13 @@ def write_report(eval_rows: list[dict]) -> None:
   </section>
   <section>
     <h2>Result Summary</h2>
-    <p class="note">This run does not solve Arabic text rendering. The LoRA learned the synthetic poster prior strongly and improves simple English poster text, but the before/after generations do not show reliable exact Arabic or bilingual transcription. Treat it as a useful pipeline proof, not a quality fix.</p>
-    <p>The main evidence is visual: compare the base and LoRA columns below. The LoRA changes layout/style toward the synthetic dataset, makes English prompts cleaner in this small test, and still leaves Arabic glyph identity/word correctness weak.</p>
+    <p class="note">This run still does not solve Arabic text rendering. The LoRA learns the synthetic poster prior and can copy a seen 10-word English target cleanly, but held-out long-English text is mixed and Arabic outputs do not reliably preserve exact glyph identity or word order.</p>
+    <p>The main evidence is visual: compare the base and LoRA columns below. The English cases now use 10-20 word targets. The LoRA improves the seen English case, but it does not prove robust generalization to unseen long text. Arabic remains the harder failure case even though Arabic appears in 75 of the 100 training records.</p>
+  </section>
+  <section>
+    <h2>Why Arabic Did Not Learn</h2>
+    <p>This is not just a prompt issue. The local renderer has no native complex text layout support (<code>raqm</code>, <code>fribidi</code>, and <code>harfbuzz</code> are unavailable), so the dataset script pre-shapes Arabic before drawing. That gives readable Arabic pixels, but the diffusion model still has to learn a difficult mapping from logical Arabic prompt tokens to cursive connected glyph pixels.</p>
+    <p>With only 100 images, a small attention-only LoRA mostly learns layout, contrast, and memorized/simple text priors. Arabic needs more signal: many more rendered lines, multiple fonts and sizes, repeated exact-copy probes, OCR/text-recognition loss, and likely LoRA/full finetuning on text-sensitive transformer layer bands rather than only generic attention projections.</p>
   </section>
   <section>
     <h2>Dataset Contact Sheet</h2>
@@ -231,7 +236,10 @@ def write_report(eval_rows: list[dict]) -> None:
   </section>
   <section>
     <h2>Recommendation</h2>
-    <p>For a real Arabic poster fix, this result says the pipeline is working but the dataset is too small and too synthetic. Next run should use thousands of high-quality rendered poster crops, include exact OCR/CLIP-style text scoring, and likely target the non-catastrophic text-sensitive layer bands from the ablation probe rather than only generic attention LoRA.</p>
+    <p>For a real Arabic poster fix, this result says the pipeline is working but the dataset is too small and too synthetic. Next run should use thousands of high-quality rendered poster crops, include exact OCR/recognition scoring, and likely target the non-catastrophic text-sensitive layer bands from the ablation probe rather than only generic attention LoRA.</p>
+    <p>For full finetuning, use a maintained Qwen-aware trainer instead of this small diagnostic trainer. The current best fit I found is DiffSynth-Studio, which has explicit Qwen-Image-Edit-2511 full-training and LoRA scripts. Musubi is also serious and documents Qwen-Image/Edit LoRA plus full finetuning, but it states that some Qwen training hyperparameters are still uncertain. My recommendation is: use DiffSynth for full DiT finetuning, keep this local script for small controlled probes only.</p>
+    <p>Decision: full finetuning can plausibly improve Arabic and long English rendering, but only with a much larger text-focused dataset. Full finetuning on 100 synthetic images would probably overfit the poster style and damage general image/edit quality.</p>
+    <p>Full recommendation document: <a href="../FULL_FINETUNE_RECOMMENDATION.md">FULL_FINETUNE_RECOMMENDATION.md</a></p>
   </section>
 </main>
 </body>

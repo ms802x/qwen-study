@@ -29,12 +29,18 @@ EN_WORDS = [
     "clarity", "design", "signal", "layout", "research", "quality", "poster", "focus", "reader", "modern",
     "balance", "margin", "headline", "system", "visual", "stable", "exact", "glyph", "shape", "spacing",
     "marker", "caption", "studio", "clean", "strong", "bright", "simple", "sharp", "fresh", "direct",
+    "sequence", "contrast", "typography", "structure", "message", "aligned", "careful", "crafted", "language",
+    "sample", "training", "visible", "organized", "precise", "readable", "spacing", "baseline", "letter",
+    "paragraph", "composition", "printed", "surface", "minimal", "confident", "editorial", "identity",
 ]
 
 AR_WORDS = [
     "وضوح", "تصميم", "إشارة", "تخطيط", "بحث", "جودة", "ملصق", "تركيز", "قارئ", "حديث",
     "توازن", "هامش", "عنوان", "نظام", "بصري", "ثابت", "دقيق", "حرف", "شكل", "مسافة",
     "علامة", "شرح", "استوديو", "نظيف", "قوي", "مشرق", "بسيط", "حاد", "جديد", "مباشر",
+    "تسلسل", "تباين", "خط", "بنية", "رسالة", "مرتب", "واضح", "مصقول", "لغة",
+    "عينة", "تدريب", "ظاهر", "منظم", "متقن", "مقروء", "سطر", "حروف",
+    "فقرة", "تركيب", "مطبوع", "سطح", "هادئ", "واثق", "تحريري", "هوية",
 ]
 
 PALETTES = [
@@ -98,11 +104,33 @@ def make_phrase(words: list[str], idx: int, count: int) -> str:
     return " ".join(selected)
 
 
+def english_word_count(group: int, local: int) -> int:
+    # Force the English task into the 10-20 word range requested for the follow-up.
+    return 10 + ((local * 7 + group * 3) % 11)
+
+
+def arabic_word_count(group: int, local: int) -> int:
+    # Keep Arabic slightly shorter so the text is still visually large enough at 512px.
+    return 5 + ((local * 5 + group * 2) % 6)
+
+
+def english_font_size(word_count: int, base: int = 30) -> int:
+    if word_count <= 11:
+        return base
+    if word_count <= 14:
+        return base - 3
+    if word_count <= 17:
+        return base - 6
+    return base - 8
+
+
 def sample(idx: int) -> dict[str, str | int]:
     group = idx // 25
     local = idx % 25
-    en = make_phrase(EN_WORDS, idx, 3 + (local % 4))
-    ar = make_phrase(AR_WORDS, idx, 3 + ((local + 1) % 4))
+    en_count = english_word_count(group, local)
+    ar_count = arabic_word_count(group, local)
+    en = make_phrase(EN_WORDS, idx, en_count)
+    ar = make_phrase(AR_WORDS, idx, ar_count)
     if group == 0:
         kind = "english_single"
         prompt = f'Create a clean white poster with the exact English text "{en}".'
@@ -115,7 +143,15 @@ def sample(idx: int) -> dict[str, str | int]:
     else:
         kind = "mixed_structured"
         prompt = f'Create a clean structured bilingual poster with the exact English label "{en}" and the exact Arabic label "{ar}".'
-    return {"index": idx, "kind": kind, "english": en, "arabic": ar, "prompt": prompt}
+    return {
+        "index": idx,
+        "kind": kind,
+        "english": en,
+        "arabic": ar,
+        "english_word_count": en_count,
+        "arabic_word_count": ar_count,
+        "prompt": prompt,
+    }
 
 
 def render(item: dict[str, str | int], path: Path) -> None:
@@ -131,27 +167,31 @@ def render(item: dict[str, str | int], path: Path) -> None:
     margin = 42 + (idx % 5) * 3
     draw.rounded_rectangle((margin, margin, WIDTH - margin, HEIGHT - margin), radius=12, fill=card, outline=accent, width=2)
     if kind == "english_single":
-        size = 46 if idx % 3 else 54
+        size = english_font_size(len(en.split()), 31)
         lines = wrap_text(en, "en", draw, font(FONT_LATIN_BOLD, size), WIDTH - 150)
-        draw_centered_lines(draw, lines, "en", (75, 200), WIDTH - 150, font(FONT_LATIN_BOLD, size), ink, 9)
+        y = 145 if len(lines) > 4 else 165
+        draw_centered_lines(draw, lines, "en", (75, y), WIDTH - 150, font(FONT_LATIN_BOLD, size), ink, 7)
     elif kind == "arabic_single":
-        size = 44 if idx % 3 else 52
+        size = 40 if len(ar.split()) <= 7 else 34
         lines = wrap_text(ar, "ar", draw, font(FONT_AR_BOLD, size), WIDTH - 150)
-        draw_centered_lines(draw, lines, "ar", (75, 190), WIDTH - 150, font(FONT_AR_BOLD, size), ink, 9)
+        y = 172 if len(lines) <= 3 else 145
+        draw_centered_lines(draw, lines, "ar", (75, y), WIDTH - 150, font(FONT_AR_BOLD, size), ink, 8)
     elif kind == "mixed_stacked":
         draw.text((74, 78), "BILINGUAL SAMPLE", font=font(FONT_LATIN_BOLD, 18), fill=accent)
-        en_lines = wrap_text(en, "en", draw, font(FONT_LATIN_BOLD, 35), WIDTH - 145)
-        y = draw_centered_lines(draw, en_lines, "en", (72, 145), WIDTH - 144, font(FONT_LATIN_BOLD, 35), ink, 6)
+        en_size = english_font_size(len(en.split()), 25)
+        en_lines = wrap_text(en, "en", draw, font(FONT_LATIN_BOLD, en_size), WIDTH - 145)
+        y = draw_centered_lines(draw, en_lines, "en", (72, 118), WIDTH - 144, font(FONT_LATIN_BOLD, en_size), ink, 5)
         draw.line((86, y + 20, WIDTH - 86, y + 20), fill=accent, width=2)
-        ar_lines = wrap_text(ar, "ar", draw, font(FONT_AR_BOLD, 35), WIDTH - 145)
-        draw_centered_lines(draw, ar_lines, "ar", (72, y + 52), WIDTH - 144, font(FONT_AR_BOLD, 35), ink, 6)
+        ar_lines = wrap_text(ar, "ar", draw, font(FONT_AR_BOLD, 30), WIDTH - 145)
+        draw_centered_lines(draw, ar_lines, "ar", (72, y + 47), WIDTH - 144, font(FONT_AR_BOLD, 30), ink, 6)
     else:
         draw.rounded_rectangle((70, 96, WIDTH - 70, 218), radius=8, fill=bg, outline=accent, width=2)
         draw.rounded_rectangle((70, 292, WIDTH - 70, 414), radius=8, fill=bg, outline=accent, width=2)
         draw.text((88, 112), "EN", font=font(FONT_LATIN_BOLD, 18), fill=accent)
         draw.text((WIDTH - 116, 308), shape_arabic("عربي"), font=font(FONT_AR_BOLD, 18), fill=accent)
-        en_lines = wrap_text(en, "en", draw, font(FONT_LATIN_BOLD, 28), WIDTH - 170)
-        draw_centered_lines(draw, en_lines, "en", (92, 143), WIDTH - 184, font(FONT_LATIN_BOLD, 28), ink, 5)
+        en_size = english_font_size(len(en.split()), 22)
+        en_lines = wrap_text(en, "en", draw, font(FONT_LATIN_BOLD, en_size), WIDTH - 170)
+        draw_centered_lines(draw, en_lines, "en", (92, 139), WIDTH - 184, font(FONT_LATIN_BOLD, en_size), ink, 4)
         ar_lines = wrap_text(ar, "ar", draw, font(FONT_AR_BOLD, 28), WIDTH - 170)
         draw_centered_lines(draw, ar_lines, "ar", (92, 337), WIDTH - 184, font(FONT_AR_BOLD, 28), ink, 5)
 
@@ -211,6 +251,8 @@ def main() -> None:
                     "mixed_stacked": 25,
                     "mixed_structured": 25,
                 },
+                "english_word_count_range": [10, 20],
+                "arabic_word_count_range": [5, 10],
             },
             ensure_ascii=False,
             indent=2,
