@@ -11,11 +11,11 @@
 <main>
   <p class="breadcrumb"><a href="../">Text rendering study</a> / Next experiments</p>
   <h1>Experiment 06: Long Text Stress Test</h1>
-  <p class="lead">English and Arabic only. Each prompt asks Qwen to typeset exact 10, 50, 100, and 500-word blocks on a portrait document-style poster. The API is run with max_sequence_length=1024, which is the highest value accepted by the current server.</p>
+  <p class="lead">English, Arabic, and Chinese only. Each prompt asks Qwen to typeset exact 10, 20, and 50-word blocks on a portrait document-style poster. The API is run with max_sequence_length=1024, which is the highest value accepted by the current server.</p>
   <section>
     <h2>Observed Result</h2>
-    <p>The portrait format does not make exact text reliable. English 10 words partially preserves the requested vocabulary but already introduces malformed words; English 50 words keeps some recognizable words while corrupting many others; English 100 and 500 words collapse into page-like microtext rather than exact readable copy. Arabic remains malformed at 10, 50, 100, and 500 words, matching the earlier Arabic findings.</p>
-    <p class="note">The 500-word case is intentionally unrealistic for a raster image generator. It is included as a failure-boundary test, not as a practical production target.</p>
+    <p>This page is the practical long-text boundary test after removing the unrealistic 100 and 500-word cases. At 10 words, English and Chinese preserve some requested terms but already introduce invented or malformed text, while Arabic is malformed. At 20 and 50 words, all three languages degrade into approximate document texture rather than exact text transcription.</p>
+    <p class="note">The earlier 100 and 500-word outputs were removed from this report because they mostly measure impossible dense-page rendering rather than useful poster text fidelity.</p>
   </section>
   <section>
     <h2>Contact Sheet</h2>
@@ -26,24 +26,11 @@
     <div class="grid">
 
     <div class="card">
-      <img src="../assets/next_experiments/exp_06_long_text_stress/arabic_10_words.jpg" alt="Arabic 10 words">
-      <div class="caption">
-        <strong>Arabic 10 words</strong><br>
-        target words: 10<br>
-        wall: 26.99s
-      </div>
-      <details>
-        <summary>Target text</summary>
-        <p class="rtl">تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن</p>
-      </details>
-    </div>
-
-    <div class="card">
       <img src="../assets/next_experiments/exp_06_long_text_stress/english_10_words.jpg" alt="English 10 words">
       <div class="caption">
         <strong>English 10 words</strong><br>
         target words: 10<br>
-        wall: 26.76s
+        wall: 26.78s
       </div>
       <details>
         <summary>Target text</summary>
@@ -52,15 +39,67 @@
     </div>
 
     <div class="card">
-      <img src="../assets/next_experiments/exp_06_long_text_stress/arabic_50_words.jpg" alt="Arabic 50 words">
+      <img src="../assets/next_experiments/exp_06_long_text_stress/arabic_10_words.jpg" alt="Arabic 10 words">
       <div class="caption">
-        <strong>Arabic 50 words</strong><br>
-        target words: 50<br>
-        wall: 27.49s
+        <strong>Arabic 10 words</strong><br>
+        target words: 10<br>
+        wall: 26.88s
       </div>
       <details>
         <summary>Target text</summary>
-        <p class="rtl">تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن</p>
+        <p class="rtl">تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_06_long_text_stress/chinese_10_words.jpg" alt="Chinese 10 words">
+      <div class="caption">
+        <strong>Chinese 10 words</strong><br>
+        target words: 10<br>
+        wall: 26.99s
+      </div>
+      <details>
+        <summary>Target text</summary>
+        <p class="cjk">清晰 设计 研究 质量 版式 字体 海报 信号 细节 平衡</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_06_long_text_stress/english_20_words.jpg" alt="English 20 words">
+      <div class="caption">
+        <strong>English 20 words</strong><br>
+        target words: 20<br>
+        wall: 27.03s
+      </div>
+      <details>
+        <summary>Target text</summary>
+        <p class="">clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_06_long_text_stress/arabic_20_words.jpg" alt="Arabic 20 words">
+      <div class="caption">
+        <strong>Arabic 20 words</strong><br>
+        target words: 20<br>
+        wall: 27.20s
+      </div>
+      <details>
+        <summary>Target text</summary>
+        <p class="rtl">تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_06_long_text_stress/chinese_20_words.jpg" alt="Chinese 20 words">
+      <div class="caption">
+        <strong>Chinese 20 words</strong><br>
+        target words: 20<br>
+        wall: 27.13s
+      </div>
+      <details>
+        <summary>Target text</summary>
+        <p class="cjk">清晰 设计 研究 质量 版式 字体 海报 信号 细节 平衡 对比 边距 章节 标题 说明 读者 焦点 系统 图像 语言</p>
       </details>
     </div>
 
@@ -69,7 +108,7 @@
       <div class="caption">
         <strong>English 50 words</strong><br>
         target words: 50<br>
-        wall: 27.09s
+        wall: 27.14s
       </div>
       <details>
         <summary>Target text</summary>
@@ -78,54 +117,28 @@
     </div>
 
     <div class="card">
-      <img src="../assets/next_experiments/exp_06_long_text_stress/arabic_100_words.jpg" alt="Arabic 100 words">
+      <img src="../assets/next_experiments/exp_06_long_text_stress/arabic_50_words.jpg" alt="Arabic 50 words">
       <div class="caption">
-        <strong>Arabic 100 words</strong><br>
-        target words: 100<br>
-        wall: 27.76s
+        <strong>Arabic 50 words</strong><br>
+        target words: 50<br>
+        wall: 27.58s
       </div>
       <details>
         <summary>Target text</summary>
-        <p class="rtl">تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة</p>
+        <p class="rtl">تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن</p>
       </details>
     </div>
 
     <div class="card">
-      <img src="../assets/next_experiments/exp_06_long_text_stress/english_100_words.jpg" alt="English 100 words">
+      <img src="../assets/next_experiments/exp_06_long_text_stress/chinese_50_words.jpg" alt="Chinese 50 words">
       <div class="caption">
-        <strong>English 100 words</strong><br>
-        target words: 100<br>
-        wall: 27.51s
+        <strong>Chinese 50 words</strong><br>
+        target words: 50<br>
+        wall: 27.61s
       </div>
       <details>
         <summary>Target text</summary>
-        <p class="">clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language</p>
-      </details>
-    </div>
-
-    <div class="card">
-      <img src="../assets/next_experiments/exp_06_long_text_stress/arabic_500_words.jpg" alt="Arabic 500 words">
-      <div class="caption">
-        <strong>Arabic 500 words</strong><br>
-        target words: 500<br>
-        wall: 29.41s
-      </div>
-      <details>
-        <summary>Target text</summary>
-        <p class="rtl">تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة</p>
-      </details>
-    </div>
-
-    <div class="card">
-      <img src="../assets/next_experiments/exp_06_long_text_stress/english_500_words.jpg" alt="English 500 words">
-      <div class="caption">
-        <strong>English 500 words</strong><br>
-        target words: 500<br>
-        wall: 28.20s
-      </div>
-      <details>
-        <summary>Target text</summary>
-        <p class="">clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language</p>
+        <p class="cjk">清晰 设计 研究 质量 版式 字体 海报 信号 细节 平衡 对比 边距 章节 标题 说明 读者 焦点 系统 图像 语言 模型 视觉 间距 网格 节奏 形状 意义 语境 结构 流程 复核 样本 结果 提示 风格 干净 现代 强度 准确 稳定 清晰 设计 研究 质量 版式 字体 海报 信号 细节 平衡</p>
       </details>
     </div>
 
@@ -134,14 +147,15 @@
   <section>
     <h2>Prompts And Targets</h2>
     <p><a href="../assets/next_experiments/exp_06_long_text_stress/exp_06_long_text_stress_results.csv">Download CSV for this experiment</a></p>
-    <table><thead><tr><th>Case</th><th>Seed</th><th>Words</th><th>Prompt</th></tr></thead><tbody><tr><td>Arabic 10 words</td><td>98010</td><td>10</td><td>Create a clean portrait white document poster that typesets exactly this 10-word Arabic text block. Use black Arabic sans-serif typography, correct right-to-left shaping, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Arabic text block: &quot;تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن&quot;</td></tr>
-<tr><td>English 10 words</td><td>97010</td><td>10</td><td>Create a clean portrait white document poster that typesets exactly this 10-word English text block. Use black sans-serif typography, clean margins, and simple line wrapping. Do not summarize, do not add decorative letters, and do not add any extra words. Exact English text block: &quot;clarity design research quality layout typography poster signal detail balance&quot;</td></tr>
-<tr><td>Arabic 50 words</td><td>98050</td><td>50</td><td>Create a clean portrait white document poster that typesets exactly this 50-word Arabic text block. Use black Arabic sans-serif typography, correct right-to-left shaping, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Arabic text block: &quot;تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن&quot;</td></tr>
+    <table><thead><tr><th>Case</th><th>Seed</th><th>Words</th><th>Prompt</th></tr></thead><tbody><tr><td>English 10 words</td><td>97010</td><td>10</td><td>Create a clean portrait white document poster that typesets exactly this 10-word English text block. Use black sans-serif typography, clean margins, and simple line wrapping. Do not summarize, do not add decorative letters, and do not add any extra words. Exact English text block: &quot;clarity design research quality layout typography poster signal detail balance&quot;</td></tr>
+<tr><td>Arabic 10 words</td><td>98010</td><td>10</td><td>Create a clean portrait white document poster that typesets exactly this 10-word Arabic text block. Use black Arabic sans-serif typography, correct right-to-left shaping, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Arabic text block: &quot;تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن&quot;</td></tr>
+<tr><td>Chinese 10 words</td><td>99010</td><td>10</td><td>Create a clean portrait white document poster that typesets exactly this 10-word Chinese text block. Use black Chinese sans-serif typography, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Chinese text block: &quot;清晰 设计 研究 质量 版式 字体 海报 信号 细节 平衡&quot;</td></tr>
+<tr><td>English 20 words</td><td>97020</td><td>20</td><td>Create a clean portrait white document poster that typesets exactly this 20-word English text block. Use black sans-serif typography, clean margins, and simple line wrapping. Do not summarize, do not add decorative letters, and do not add any extra words. Exact English text block: &quot;clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language&quot;</td></tr>
+<tr><td>Arabic 20 words</td><td>98020</td><td>20</td><td>Create a clean portrait white document poster that typesets exactly this 20-word Arabic text block. Use black Arabic sans-serif typography, correct right-to-left shaping, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Arabic text block: &quot;تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة&quot;</td></tr>
+<tr><td>Chinese 20 words</td><td>99020</td><td>20</td><td>Create a clean portrait white document poster that typesets exactly this 20-word Chinese text block. Use black Chinese sans-serif typography, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Chinese text block: &quot;清晰 设计 研究 质量 版式 字体 海报 信号 细节 平衡 对比 边距 章节 标题 说明 读者 焦点 系统 图像 语言&quot;</td></tr>
 <tr><td>English 50 words</td><td>97050</td><td>50</td><td>Create a clean portrait white document poster that typesets exactly this 50-word English text block. Use black sans-serif typography, clean margins, and simple line wrapping. Do not summarize, do not add decorative letters, and do not add any extra words. Exact English text block: &quot;clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance&quot;</td></tr>
-<tr><td>Arabic 100 words</td><td>98100</td><td>100</td><td>Create a clean portrait white document poster that typesets exactly this 100-word Arabic text block. Use black Arabic sans-serif typography, correct right-to-left shaping, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Arabic text block: &quot;تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة&quot;</td></tr>
-<tr><td>English 100 words</td><td>97100</td><td>100</td><td>Create a clean portrait white document poster that typesets exactly this 100-word English text block. Use black sans-serif typography, clean margins, and simple line wrapping. Do not summarize, do not add decorative letters, and do not add any extra words. Exact English text block: &quot;clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language&quot;</td></tr>
-<tr><td>Arabic 500 words</td><td>98500</td><td>500</td><td>Create a clean portrait white document poster that typesets exactly this 500-word Arabic text block. Use black Arabic sans-serif typography, correct right-to-left shaping, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Arabic text block: &quot;تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة&quot;</td></tr>
-<tr><td>English 500 words</td><td>97500</td><td>500</td><td>Create a clean portrait white document poster that typesets exactly this 500-word English text block. Use black sans-serif typography, clean margins, and simple line wrapping. Do not summarize, do not add decorative letters, and do not add any extra words. Exact English text block: &quot;clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language model visual spacing grid rhythm shape meaning context structure workflow review sample output prompt style clean modern strong accurate stable clarity design research quality layout typography poster signal detail balance contrast margin section headline caption reader focus system image language&quot;</td></tr></tbody></table>
+<tr><td>Arabic 50 words</td><td>98050</td><td>50</td><td>Create a clean portrait white document poster that typesets exactly this 50-word Arabic text block. Use black Arabic sans-serif typography, correct right-to-left shaping, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Arabic text block: &quot;تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن تباين هامش قسم عنوان شرح قارئ تركيز نظام صورة لغة نموذج بصري مسافة شبكة إيقاع شكل معنى سياق بنية مسار مراجعة عينة نتيجة موجه أسلوب نظيف حديث قوي دقيق ثابت تصميم واضح بحث جودة تخطيط طباعة ملصق إشارة تفاصيل توازن&quot;</td></tr>
+<tr><td>Chinese 50 words</td><td>99050</td><td>50</td><td>Create a clean portrait white document poster that typesets exactly this 50-word Chinese text block. Use black Chinese sans-serif typography, clean margins, and simple line wrapping. Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. Exact Chinese text block: &quot;清晰 设计 研究 质量 版式 字体 海报 信号 细节 平衡 对比 边距 章节 标题 说明 读者 焦点 系统 图像 语言 模型 视觉 间距 网格 节奏 形状 意义 语境 结构 流程 复核 样本 结果 提示 风格 干净 现代 强度 准确 稳定 清晰 设计 研究 质量 版式 字体 海报 信号 细节 平衡&quot;</td></tr></tbody></table>
   </section>
 </main>
 </body>

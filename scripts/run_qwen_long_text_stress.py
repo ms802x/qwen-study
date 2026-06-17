@@ -29,7 +29,8 @@ HEIGHT = 1536
 STEPS = 40
 TRUE_CFG_SCALE = 4.0
 MAX_SEQUENCE_LENGTH = 1024
-WORD_COUNTS = [10, 50, 100, 500]
+WORD_COUNTS = [10, 20, 50]
+LANGUAGES = ["english", "arabic", "chinese"]
 
 FONT_LATIN = Path("/opt/conda/fonts/DejaVuSans.ttf")
 
@@ -45,6 +46,13 @@ ARABIC_POOL = [
     "تباين", "هامش", "قسم", "عنوان", "شرح", "قارئ", "تركيز", "نظام", "صورة", "لغة",
     "نموذج", "بصري", "مسافة", "شبكة", "إيقاع", "شكل", "معنى", "سياق", "بنية", "مسار",
     "مراجعة", "عينة", "نتيجة", "موجه", "أسلوب", "نظيف", "حديث", "قوي", "دقيق", "ثابت",
+]
+
+CHINESE_POOL = [
+    "清晰", "设计", "研究", "质量", "版式", "字体", "海报", "信号", "细节", "平衡",
+    "对比", "边距", "章节", "标题", "说明", "读者", "焦点", "系统", "图像", "语言",
+    "模型", "视觉", "间距", "网格", "节奏", "形状", "意义", "语境", "结构", "流程",
+    "复核", "样本", "结果", "提示", "风格", "干净", "现代", "强度", "准确", "稳定",
 ]
 
 
@@ -69,7 +77,12 @@ def decode_response_image(data: str, path: Path) -> None:
 
 
 def target_text(lang: str, words: int) -> str:
-    pool = ARABIC_POOL if lang == "arabic" else ENGLISH_POOL
+    if lang == "arabic":
+        pool = ARABIC_POOL
+    elif lang == "chinese":
+        pool = CHINESE_POOL
+    else:
+        pool = ENGLISH_POOL
     return " ".join(pool[idx % len(pool)] for idx in range(words))
 
 
@@ -80,6 +93,13 @@ def prompt_for(lang: str, words: int, text: str) -> str:
             "Use black Arabic sans-serif typography, correct right-to-left shaping, clean margins, and simple line wrapping. "
             "Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. "
             f'Exact Arabic text block: "{text}"'
+        )
+    if lang == "chinese":
+        return (
+            f"Create a clean portrait white document poster that typesets exactly this {words}-word Chinese text block. "
+            "Use black Chinese sans-serif typography, clean margins, and simple line wrapping. "
+            "Do not translate, do not summarize, do not add decorative letters, and do not add any extra words. "
+            f'Exact Chinese text block: "{text}"'
         )
     return (
         f"Create a clean portrait white document poster that typesets exactly this {words}-word English text block. "
@@ -107,7 +127,7 @@ def run_job(api: str, lang: str, words: int, force: bool) -> dict[str, Any]:
         "image_roles": [],
         "enhance_prompt": False,
         "negative_prompt": "random text, fake text, misspelled text, watermark, logo, illustration, decoration",
-        "seed": 97000 + words + (1000 if lang == "arabic" else 0),
+        "seed": 97000 + words + {"english": 0, "arabic": 1000, "chinese": 2000}[lang],
         "height": HEIGHT,
         "width": WIDTH,
         "num_inference_steps": STEPS,
@@ -151,10 +171,25 @@ def copy_asset(src: Path) -> str:
     return f"../assets/next_experiments/exp_06_long_text_stress/{dst.name}"
 
 
+def prune_stale_outputs() -> None:
+    valid_names = {f"{lang}_{words}_words" for lang in LANGUAGES for words in WORD_COUNTS}
+    for directory in [OUT, WEB_ASSETS]:
+        if not directory.exists():
+            continue
+        for path in directory.iterdir():
+            if path.name.startswith("exp_06_long_text_stress_"):
+                continue
+            if path.suffix.lower() not in {".jpg", ".json"}:
+                continue
+            stem = path.stem
+            if stem not in valid_names:
+                path.unlink()
+
+
 def make_contact_sheet(rows: list[dict[str, Any]], out_path: Path) -> None:
-    cols = 2
-    cell_w = 520
-    image_h = 650
+    cols = 3
+    cell_w = 420
+    image_h = 540
     label_h = 66
     sheet = Image.new("RGB", (cols * cell_w, math.ceil(len(rows) / cols) * (image_h + label_h)), "white")
     draw = ImageDraw.Draw(sheet)
@@ -178,7 +213,7 @@ def clean_html(text: str) -> str:
 
 def card(row: dict[str, Any]) -> str:
     image_rel = f"../assets/next_experiments/exp_06_long_text_stress/{Path(row['output_path']).name}"
-    klass = "rtl" if row["lang"] == "arabic" else ""
+    klass = "rtl" if row["lang"] == "arabic" else "cjk" if row["lang"] == "chinese" else ""
     text = html.escape(row["target_text"])
     return f"""
     <div class="card">
@@ -199,7 +234,8 @@ def card(row: dict[str, Any]) -> str:
 def write_experiment_page(rows: list[dict[str, Any]]) -> None:
     WEB_EXP.mkdir(parents=True, exist_ok=True)
     WEB_ASSETS.mkdir(parents=True, exist_ok=True)
-    rows = sorted(rows, key=lambda row: (row["target_word_count"], row["lang"]))
+    lang_order = {lang: idx for idx, lang in enumerate(LANGUAGES)}
+    rows = sorted(rows, key=lambda row: (row["target_word_count"], lang_order[row["lang"]]))
 
     csv_path = OUT / "exp_06_long_text_stress_results.csv"
     pd.DataFrame(rows).to_csv(csv_path, index=False)
@@ -228,11 +264,11 @@ def write_experiment_page(rows: list[dict[str, Any]]) -> None:
 <main>
   <p class="breadcrumb"><a href="../">Text rendering study</a> / Next experiments</p>
   <h1>Experiment 06: Long Text Stress Test</h1>
-  <p class="lead">English and Arabic only. Each prompt asks Qwen to typeset exact 10, 50, 100, and 500-word blocks on a portrait document-style poster. The API is run with max_sequence_length={MAX_SEQUENCE_LENGTH}, which is the highest value accepted by the current server.</p>
+  <p class="lead">English, Arabic, and Chinese only. Each prompt asks Qwen to typeset exact 10, 20, and 50-word blocks on a portrait document-style poster. The API is run with max_sequence_length={MAX_SEQUENCE_LENGTH}, which is the highest value accepted by the current server.</p>
   <section>
     <h2>Observed Result</h2>
-    <p>The portrait format does not make exact text reliable. English 10 words partially preserves the requested vocabulary but already introduces malformed words; English 50 words keeps some recognizable words while corrupting many others; English 100 and 500 words collapse into page-like microtext rather than exact readable copy. Arabic remains malformed at 10, 50, 100, and 500 words, matching the earlier Arabic findings.</p>
-    <p class="note">The 500-word case is intentionally unrealistic for a raster image generator. It is included as a failure-boundary test, not as a practical production target.</p>
+    <p>This page is the practical long-text boundary test after removing the unrealistic 100 and 500-word cases. At 10 words, English and Chinese preserve some requested terms but already introduce invented or malformed text, while Arabic is malformed. At 20 and 50 words, all three languages degrade into approximate document texture rather than exact text transcription.</p>
+    <p class="note">The earlier 100 and 500-word outputs were removed from this report because they mostly measure impossible dense-page rendering rather than useful poster text fidelity.</p>
   </section>
   <section>
     <h2>Contact Sheet</h2>
@@ -264,7 +300,7 @@ def write_experiment_index() -> None:
         ("Experiment 03: Reference Glyph Copy", "Tests whether already-rendered reference glyphs help Qwen copy or preserve exact text.", "exp_03_reference_glyph_copy.html", "exp_03_reference_glyph_copy/exp_03_reference_glyph_copy_contact_sheet.jpg"),
         ("Experiment 04: Background Complexity", "Tests whether visual context makes exact text rendering worse.", "exp_04_background_complexity.html", "exp_04_background_complexity/exp_04_background_complexity_contact_sheet.jpg"),
         ("Experiment 05: Arabic Prompt Variants", "Tests whether prompt wording alone can repair Arabic text fidelity.", "exp_05_arabic_prompt_variants.html", "exp_05_arabic_prompt_variants/exp_05_arabic_prompt_variants_contact_sheet.jpg"),
-        ("Experiment 06: Long Text Stress Test", "Tests English and Arabic at 10, 50, 100, and 500 target words.", "exp_06_long_text_stress.html", "exp_06_long_text_stress/exp_06_long_text_stress_contact_sheet.jpg"),
+        ("Experiment 06: Long Text Stress Test", "Tests English, Arabic, and Chinese at 10, 20, and 50 target words.", "exp_06_long_text_stress.html", "exp_06_long_text_stress/exp_06_long_text_stress_contact_sheet.jpg"),
     ]
     links = "\n".join(
         f"""<div class="card"><img src="../assets/next_experiments/{image}" alt="{html.escape(title)}"><div class="caption"><a href="{page}"><strong>{html.escape(title)}</strong></a><br>{html.escape(summary)}</div></div>"""
@@ -293,9 +329,10 @@ def write_experiment_index() -> None:
 
 
 def run(args: argparse.Namespace) -> None:
+    prune_stale_outputs()
     rows: list[dict[str, Any]] = []
     for words in WORD_COUNTS:
-        for lang in ["english", "arabic"]:
+        for lang in LANGUAGES:
             print(f"{lang} {words} words", flush=True)
             row = run_job(args.api, lang, words, args.force)
             rows.append(row)

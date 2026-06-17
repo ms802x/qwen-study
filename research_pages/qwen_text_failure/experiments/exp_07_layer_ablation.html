@@ -1,0 +1,78 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment 07: Layer Ablation Probe</title>
+  <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+<main>
+  <p class="breadcrumb"><a href="../">Text rendering study</a> / Next experiments</p>
+  <h1>Experiment 07: Layer Ablation Probe</h1>
+  <p class="lead">A direct Qwen transformer probe on GPU 1. The script skips one of the 60 transformer blocks at a time, generates the same fixed <code>AI PIZZA</code> prompt, and ranks outputs by pixel difference from the unmodified baseline.</p>
+  <section>
+    <h2>Observed Result</h2>
+    <p>The strongest single skipped layer by pixel MAE is layer 00. The top five most disruptive layers are 00 (MAE 90.72), 59 (MAE 72.59), 01 (MAE 46.99), 37 (MAE 31.91), 23 (MAE 27.45).</p>
+    <p>Interpretation: layers 00 and 59 are catastrophic trajectory layers in this probe, so they dominate the visual metric. For text-specific follow-up, the more useful candidates are the high-impact non-catastrophic skips where the poster remains but glyph shape, spacing, or layout changes: layers 23, 32, 34, 37, 49, and 51.</p>
+    <p class="note">This is an ablation ranking, not proof that one layer alone stores text knowledge. Skipping a layer changes the whole denoising trajectory, and the metric is visual pixel delta rather than OCR accuracy. It is still useful for choosing layer bands to inspect or fine-tune next.</p>
+  </section>
+  <section>
+    <h2>Baseline</h2>
+    <div class="sheet"><img src="../assets/next_experiments/exp_07_layer_ablation/baseline.jpg" alt="Layer ablation baseline image"></div>
+    <p class="small">Prompt: Create a plain white square poster with only the exact text &quot;AI PIZZA&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</p>
+  </section>
+  <section>
+    <h2>Most Disruptive Layers</h2>
+    <div class="sheet"><img src="../assets/next_experiments/exp_07_layer_ablation/exp_07_layer_ablation_top_contact_sheet.jpg" alt="Top layer ablation contact sheet"></div>
+  </section>
+  <section>
+    <h2>Top Layer Outputs</h2>
+    <div class="grid"><div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_00.jpg" alt="Skip layer 0"><div class="caption"><strong>Skip layer 00</strong><br>MAE 90.72, RMSE 112.20</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_59.jpg" alt="Skip layer 59"><div class="caption"><strong>Skip layer 59</strong><br>MAE 72.59, RMSE 109.02</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_01.jpg" alt="Skip layer 1"><div class="caption"><strong>Skip layer 01</strong><br>MAE 46.99, RMSE 64.78</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_37.jpg" alt="Skip layer 37"><div class="caption"><strong>Skip layer 37</strong><br>MAE 31.91, RMSE 52.12</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_23.jpg" alt="Skip layer 23"><div class="caption"><strong>Skip layer 23</strong><br>MAE 27.45, RMSE 62.10</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_03.jpg" alt="Skip layer 3"><div class="caption"><strong>Skip layer 03</strong><br>MAE 26.45, RMSE 53.76</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_49.jpg" alt="Skip layer 49"><div class="caption"><strong>Skip layer 49</strong><br>MAE 26.06, RMSE 49.64</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_32.jpg" alt="Skip layer 32"><div class="caption"><strong>Skip layer 32</strong><br>MAE 22.04, RMSE 50.82</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_12.jpg" alt="Skip layer 12"><div class="caption"><strong>Skip layer 12</strong><br>MAE 20.28, RMSE 34.68</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_24.jpg" alt="Skip layer 24"><div class="caption"><strong>Skip layer 24</strong><br>MAE 20.27, RMSE 41.83</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_51.jpg" alt="Skip layer 51"><div class="caption"><strong>Skip layer 51</strong><br>MAE 20.17, RMSE 42.98</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_02.jpg" alt="Skip layer 2"><div class="caption"><strong>Skip layer 02</strong><br>MAE 19.59, RMSE 43.38</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_34.jpg" alt="Skip layer 34"><div class="caption"><strong>Skip layer 34</strong><br>MAE 19.10, RMSE 35.35</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_29.jpg" alt="Skip layer 29"><div class="caption"><strong>Skip layer 29</strong><br>MAE 17.46, RMSE 35.41</div></div>
+<div class="card"><img src="../assets/next_experiments/exp_07_layer_ablation/skip_layer_38.jpg" alt="Skip layer 38"><div class="caption"><strong>Skip layer 38</strong><br>MAE 17.25, RMSE 43.76</div></div></div>
+  </section>
+  <section>
+    <h2>All Layers Contact Sheet</h2>
+    <div class="sheet"><img src="../assets/next_experiments/exp_07_layer_ablation/exp_07_layer_ablation_all_contact_sheet.jpg" alt="All layer ablation contact sheet"></div>
+  </section>
+  <section>
+    <h2>Metrics</h2>
+    <p><a href="../assets/next_experiments/exp_07_layer_ablation/exp_07_layer_ablation_results.csv">Download CSV for all 60 layer skips</a></p>
+    <table><thead><tr><th>Skipped Layer</th><th>Pixel MAE</th><th>Pixel RMSE</th><th>Elapsed</th></tr></thead><tbody><tr><td>00</td><td>90.718</td><td>112.202</td><td>4.13s</td></tr>
+<tr><td>59</td><td>72.589</td><td>109.021</td><td>4.29s</td></tr>
+<tr><td>01</td><td>46.990</td><td>64.784</td><td>4.76s</td></tr>
+<tr><td>37</td><td>31.915</td><td>52.124</td><td>4.11s</td></tr>
+<tr><td>23</td><td>27.451</td><td>62.095</td><td>4.14s</td></tr>
+<tr><td>03</td><td>26.446</td><td>53.755</td><td>4.23s</td></tr>
+<tr><td>49</td><td>26.063</td><td>49.637</td><td>4.05s</td></tr>
+<tr><td>32</td><td>22.045</td><td>50.823</td><td>4.30s</td></tr>
+<tr><td>12</td><td>20.285</td><td>34.681</td><td>4.22s</td></tr>
+<tr><td>24</td><td>20.267</td><td>41.831</td><td>4.14s</td></tr>
+<tr><td>51</td><td>20.171</td><td>42.984</td><td>4.07s</td></tr>
+<tr><td>02</td><td>19.595</td><td>43.384</td><td>4.20s</td></tr>
+<tr><td>34</td><td>19.105</td><td>35.351</td><td>4.15s</td></tr>
+<tr><td>29</td><td>17.457</td><td>35.410</td><td>4.15s</td></tr>
+<tr><td>38</td><td>17.247</td><td>43.763</td><td>4.20s</td></tr>
+<tr><td>27</td><td>16.892</td><td>39.362</td><td>4.16s</td></tr>
+<tr><td>40</td><td>15.929</td><td>40.321</td><td>4.22s</td></tr>
+<tr><td>14</td><td>15.780</td><td>27.970</td><td>4.22s</td></tr>
+<tr><td>43</td><td>15.715</td><td>39.240</td><td>4.22s</td></tr>
+<tr><td>47</td><td>15.473</td><td>45.916</td><td>4.18s</td></tr></tbody></table>
+  </section>
+</main>
+</body>
+</html>
