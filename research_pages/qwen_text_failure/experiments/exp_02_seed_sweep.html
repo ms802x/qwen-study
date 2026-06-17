@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment 02: Seed Sweep</title>
+  <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+<main>
+  <p class="breadcrumb"><a href="../">Text rendering study</a> / Next experiments</p>
+
+        <h1>Experiment 02: Seed Sweep</h1>
+        <p class="lead">Tests whether success/failure is stable or seed-dependent under the same prompt.</p>
+        <section>
+          <h2>Observed Result</h2>
+          <p>English is stable across all three seeds. Arabic fails across all three seeds with different malformed glyph patterns, which points to a systematic prompt-to-glyph weakness rather than a single unlucky sample. Chinese remains comparatively stable.</p>
+        </section>
+        <section>
+          <h2>Contact Sheet</h2>
+          <div class="sheet"><img src="../assets/next_experiments/exp_02_seed_sweep/exp_02_seed_sweep_contact_sheet.jpg" alt="Experiment 02: Seed Sweep contact sheet"></div>
+        </section>
+        <section>
+          <h2>Individual Outputs</h2>
+          <div class="grid">
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93101_english.jpg" alt="English seed 93101">
+      <div class="caption"><strong>English seed 93101</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 93101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93102_english.jpg" alt="English seed 93102">
+      <div class="caption"><strong>English seed 93102</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 93102</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93103_english.jpg" alt="English seed 93103">
+      <div class="caption"><strong>English seed 93103</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 93103</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93101_arabic.jpg" alt="Arabic seed 93101">
+      <div class="caption"><strong>Arabic seed 93101</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 93101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93102_arabic.jpg" alt="Arabic seed 93102">
+      <div class="caption"><strong>Arabic seed 93102</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 93102</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93103_arabic.jpg" alt="Arabic seed 93103">
+      <div class="caption"><strong>Arabic seed 93103</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 93103</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93101_chinese.jpg" alt="Chinese seed 93101">
+      <div class="caption"><strong>Chinese seed 93101</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 93101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93102_chinese.jpg" alt="Chinese seed 93102">
+      <div class="caption"><strong>Chinese seed 93102</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 93102</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_02_seed_sweep/seed_93103_chinese.jpg" alt="Chinese seed 93103">
+      <div class="caption"><strong>Chinese seed 93103</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 93103</div>
+    </div>
+    </div>
+        </section>
+        <section>
+          <h2>Prompts</h2>
+          <p><a href="../assets/next_experiments/exp_02_seed_sweep/exp_02_seed_sweep_results.csv">Download CSV for this experiment</a></p>
+          <table><thead><tr><th>Case</th><th>Seed</th><th>Prompt</th></tr></thead><tbody><tr><td>English seed 93101</td><td>93101</td><td>Create a plain white square poster with only the exact text &quot;AI PIZZA&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>English seed 93102</td><td>93102</td><td>Create a plain white square poster with only the exact text &quot;AI PIZZA&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>English seed 93103</td><td>93103</td><td>Create a plain white square poster with only the exact text &quot;AI PIZZA&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Arabic seed 93101</td><td>93101</td><td>Create a plain white square poster with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Arabic seed 93102</td><td>93102</td><td>Create a plain white square poster with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Arabic seed 93103</td><td>93103</td><td>Create a plain white square poster with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Chinese seed 93101</td><td>93101</td><td>Create a plain white square poster with only the exact text &quot;人工智能披萨&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Chinese seed 93102</td><td>93102</td><td>Create a plain white square poster with only the exact text &quot;人工智能披萨&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Chinese seed 93103</td><td>93103</td><td>Create a plain white square poster with only the exact text &quot;人工智能披萨&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr></tbody></table>
+        </section>
+        <section>
+          <h2>Review Note</h2>
+          <p class="note">These observations come from visual review of the rendered outputs, not OCR. Exact automated scoring should be added later with a text-aware evaluator.</p>
+        </section>
+
+</main>
+</body>
+</html>

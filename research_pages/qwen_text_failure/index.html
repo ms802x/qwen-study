@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qwen Image Edit Text Rendering Study</title>
+  <style>
+    /*
+      This is intentionally plain static HTML.
+      Edit text directly in this file:
+      research_pages/qwen_text_failure/index.html
+    */
+    @font-face {
+      font-family: "NotoArabicLocal";
+      src: url("../../assets/fonts/NotoSansArabic-Regular.ttf") format("truetype");
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: "NotoArabicLocal";
+      src: url("../../assets/fonts/NotoSansArabic-Bold.ttf") format("truetype");
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: "NotoCJKLocal";
+      src: url("../../assets/fonts/NotoSansCJKsc-Regular.otf") format("opentype");
+      font-weight: 400;
+    }
+
+    :root {
+      --bg: #f6f1e7;
+      --paper: #fffdf8;
+      --paper-2: #fff8eb;
+      --ink: #23211c;
+      --muted: #6f685b;
+      --line: #d8c8a4;
+      --red: #b53a31;
+      --green: #4f7041;
+      --gold: #a98236;
+      --blue: #225f83;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.58;
+    }
+
+    main {
+      width: min(1180px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    header {
+      padding: 22px 0 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 27px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 18px 0 8px;
+      font-size: 19px;
+      letter-spacing: 0;
+    }
+
+    p { margin: 0 0 12px; color: var(--muted); }
+    a { color: var(--blue); text-decoration-thickness: 1px; }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      margin: 18px 0;
+    }
+
+    code {
+      background: #f0e8d7;
+      border: 1px solid #dfd0ae;
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-size: 0.92em;
+    }
+
+    pre {
+      overflow-x: auto;
+      background: #20211f;
+      color: #f5efe2;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 14px;
+    }
+
+    .lead {
+      font-size: 18px;
+      max-width: 920px;
+    }
+
+    .small { font-size: 13px; color: var(--muted); }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .summary-card {
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .pass strong { color: var(--green); }
+    .fail strong { color: var(--red); }
+    .mixed strong { color: var(--gold); }
+
+    .note {
+      border-left: 4px solid var(--red);
+      background: #fff3ee;
+      padding: 13px 15px;
+      color: var(--ink);
+      margin: 14px 0 0;
+    }
+
+    .note.good {
+      border-left-color: var(--green);
+      background: #eef7ea;
+    }
+
+    figure {
+      margin: 16px 0 4px;
+      padding: 12px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    figcaption {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .image-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .image-card img {
+      width: 100%;
+      display: block;
+      border-radius: 4px;
+      background: #f4f4f4;
+    }
+
+    .image-card .caption {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .label {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid var(--line);
+      background: #f6efde;
+      color: var(--ink);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .label.pass { border-color: #a7c796; background: #edf8e7; }
+    .label.fail { border-color: #d7a098; background: #fff0ed; }
+    .label.mixed { border-color: #d7bf7b; background: #fff7dc; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #e2d6bd;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1e8d7;
+      color: var(--ink);
+    }
+
+    .rtl {
+      direction: rtl;
+      font-family: "NotoArabicLocal", system-ui, sans-serif;
+      font-size: 1.05em;
+    }
+
+    .cjk {
+      font-family: "NotoCJKLocal", system-ui, sans-serif;
+      font-size: 1.03em;
+    }
+
+    .token-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .token-list span {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: #f5eddd;
+      border: 1px solid #dfd0ae;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .summary-grid, .image-grid, .two-col { grid-template-columns: 1fr; }
+      section { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Qwen Image Edit Text Rendering Study</h1>
+    <p class="lead">
+      A readable page for the first controlled experiment. It compares English, Arabic,
+      and Chinese text rendering under the same Qwen Image Edit settings, then checks
+      whether the VAE itself destroys already-rendered glyphs.
+    </p>
+    <p class="small">
+      Source notebook:
+      <a href="../../notebooks/qwen_edit_text_failure_study.ipynb">notebooks/qwen_edit_text_failure_study.ipynb</a>
+    </p>
+  </header>
+
+  <section>
+    <h2>Result In One Minute</h2>
+    <div class="summary-grid">
+      <div class="summary-card pass">
+        <strong>English passes</strong>
+        <p>Large text is rendered correctly in both text-to-image and blank-card edit.</p>
+      </div>
+      <div class="summary-card fail">
+        <strong>Arabic fails</strong>
+        <p>Qwen draws Arabic-like glyphs, but the requested phrase is not preserved.</p>
+      </div>
+      <div class="summary-card mixed">
+        <strong>Chinese passes</strong>
+        <p>Chinese is exact or close enough in both scenarios under the same settings.</p>
+      </div>
+    </div>
+    <p class="note">
+      Important correction: the synthetic VAE controls now auto-fit long Arabic and Chinese
+      phrases before VAE encoding. The earlier clipped control images were misleading.
+    </p>
+  </section>
+
+  <section>
+    <h2>Actual Qwen Outputs</h2>
+    <p>
+      Fixed seed <code>20260616</code>, size <code>768x768</code>, <code>40</code> steps,
+      true CFG <code>4.0</code>, beta scheduler, and prompt enhancement disabled.
+    </p>
+    <div class="image-grid">
+      <div class="image-card">
+        <img src="assets/study/t2i_large_sign_english.jpg" alt="Qwen text-to-image English large sign">
+        <div class="caption"><span class="label pass">exact</span> Text-to-image, English: <strong>AI PIZZA</strong></div>
+      </div>
+      <div class="image-card">
+        <img src="assets/study/edit_blank_large_sign_english.jpg" alt="Qwen edit English blank card">
+        <div class="caption"><span class="label pass">exact</span> Edit blank card, English: <strong>AI PIZZA</strong></div>
+      </div>
+      <div class="image-card">
+        <img src="assets/study/t2i_large_sign_chinese.jpg" alt="Qwen text-to-image Chinese large sign">
+        <div class="caption"><span class="label mixed">near exact</span> Text-to-image, Chinese: <span class="cjk">人工智能披萨</span></div>
+      </div>
+      <div class="image-card">
+        <img src="assets/study/edit_blank_large_sign_chinese.jpg" alt="Qwen edit Chinese blank card">
+        <div class="caption"><span class="label mixed">near exact</span> Edit blank card, Chinese: <span class="cjk">人工智能披萨</span></div>
+      </div>
+      <div class="image-card">
+        <img src="assets/study/t2i_large_sign_arabic.jpg" alt="Qwen text-to-image Arabic large sign">
+        <div class="caption"><span class="label fail">wrong text</span> Text-to-image, target Arabic: <span class="rtl">بيتزا الذكاء الاصطناعي</span></div>
+      </div>
+      <div class="image-card">
+        <img src="assets/study/edit_blank_large_sign_arabic.jpg" alt="Qwen edit Arabic blank card">
+        <div class="caption"><span class="label fail">wrong text</span> Edit blank card, target Arabic: <span class="rtl">بيتزا الذكاء الاصطناعي</span></div>
+      </div>
+    </div>
+    <figure>
+      <img src="assets/study/initial_qwen_api_matrix_readable.jpg" alt="Readable contact sheet of initial Qwen text rendering matrix">
+      <figcaption>Same outputs as one contact sheet.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>VAE Probe: Corrected Control Images</h2>
+    <p>
+      We render clean text ourselves, then pass it through the Qwen VAE encoder/decoder.
+      This isolates VAE reconstruction from Qwen generation. Long phrases are now fitted
+      inside the card before encoding, so the probe is not based on clipped source images.
+    </p>
+    <figure>
+      <img src="assets/study/synthetic_text_controls_readable.jpg" alt="Readable synthetic text controls with fitted font sizes">
+      <figcaption>
+        Clean source images before Qwen VAE. Notice Arabic requested 96/48 both fit to actual 43px;
+        Chinese requested 96 fits to actual 69px.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="assets/study/vae_reconstruction_readable.jpg" alt="Readable Qwen VAE source and reconstruction comparison">
+      <figcaption>
+        VAE reconstructions preserve already-rendered English, Arabic, and Chinese well at these fitted sizes.
+      </figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr>
+          <th>Language</th>
+          <th>Requested Sizes</th>
+          <th>Actual Fitted Sizes</th>
+          <th>SSIM Range</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>English</td>
+          <td>96, 48, 24</td>
+          <td>96, 48, 24</td>
+          <td>0.9977 - 0.9983</td>
+          <td>VAE preserves clean Latin glyphs well.</td>
+        </tr>
+        <tr>
+          <td>Arabic</td>
+          <td>96, 48, 24</td>
+          <td>43, 43, 24</td>
+          <td>0.9984 - 0.9986</td>
+          <td>VAE preserves already-rendered Arabic well in this fitted control.</td>
+        </tr>
+        <tr>
+          <td>Chinese</td>
+          <td>96, 48, 24</td>
+          <td>69, 48, 24</td>
+          <td>0.9979 - 0.9984</td>
+          <td>VAE preserves already-rendered Chinese well in this fitted control.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note good">
+      The VAE can still become a bottleneck for tiny dense text. This first probe only says:
+      for these clean fitted controls, Arabic failure is not explained by VAE reconstruction alone.
+    </p>
+  </section>
+
+  <section>
+    <h2>Tokenizer Probe, Made Readable</h2>
+    <p>
+      The tokenizer probe is about prompt conditioning, not rendered glyphs. Raw tokenizer pieces
+      are byte-level and can look corrupted, so this table uses decoded token previews.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Language</th>
+          <th>Text</th>
+          <th>Chars</th>
+          <th>Tokens</th>
+          <th>Decoded Token Preview</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>English</td>
+          <td>AI PIZZA</td>
+          <td>8</td>
+          <td>4</td>
+          <td><span class="token-list"><span>AI</span><span> P</span><span>IZ</span><span>ZA</span></span></td>
+        </tr>
+        <tr>
+          <td>Arabic</td>
+          <td class="rtl">بيتزا الذكاء الاصطناعي</td>
+          <td>22</td>
+          <td>11</td>
+          <td><span class="token-list rtl"><span>بي</span><span>ت</span><span>زا</span><span> الذ</span><span>ك</span><span>اء</span><span> ال</span><span>اص</span><span>طن</span><span>اع</span><span>ي</span></span></td>
+        </tr>
+        <tr>
+          <td>Chinese</td>
+          <td class="cjk">人工智能披萨</td>
+          <td>6</td>
+          <td>3</td>
+          <td><span class="token-list cjk"><span>人工智能</span><span>披</span><span>萨</span></span></td>
+        </tr>
+        <tr>
+          <td>English short</td>
+          <td>MENU</td>
+          <td>4</td>
+          <td>1</td>
+          <td><span class="token-list"><span>MENU</span></span></td>
+        </tr>
+        <tr>
+          <td>Arabic short</td>
+          <td class="rtl">قائمة</td>
+          <td>5</td>
+          <td>3</td>
+          <td><span class="token-list rtl"><span>ق</span><span>ائ</span><span>مة</span></span></td>
+        </tr>
+        <tr>
+          <td>Chinese short</td>
+          <td class="cjk">菜单</td>
+          <td>2</td>
+          <td>1</td>
+          <td><span class="token-list cjk"><span>菜单</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">
+      Token count alone does not explain the result. Arabic has more tokens, but the bigger issue is
+      likely the model’s learned mapping from prompt tokens to correct shaped glyph sequences during denoising.
+    </p>
+  </section>
+
+  <section>
+    <h2>Architecture: Where Failure Can Happen</h2>
+    <figure>
+      <img src="assets/study/qwen_edit_architecture_diagram.png" alt="Qwen Image Edit architecture diagram">
+      <figcaption>
+        The model combines prompt/text conditioning, visual-language conditioning, VAE latents,
+        a 60-layer Qwen Image Transformer, FlowMatch Euler sampling, and VAE decoding.
+      </figcaption>
+    </figure>
+    <div class="two-col">
+      <div>
+        <h3>Measured So Far</h3>
+        <p>English and Chinese large text succeed under the starter settings.</p>
+        <p>Arabic fails under the same starter settings.</p>
+        <p>The corrected VAE probe preserves already-rendered Arabic.</p>
+      </div>
+      <div>
+        <h3>Still Unknown</h3>
+        <p>Which transformer layers or attention heads encode glyph identity.</p>
+        <p>How much of Arabic failure is from data prior versus objective versus prompt conditioning.</p>
+        <p>Whether reference-glyph copy can rescue Arabic without finetuning.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Next Experiments</h2>
+    <p>
+      The completed follow-up batch is available as separate pages:
+      <a href="experiments/">open the next-experiments index</a>.
+    </p>
+    <ol>
+      <li>Same Arabic phrase over multiple seeds.</li>
+      <li>Large / medium / small text sizes for English, Arabic, Chinese.</li>
+      <li>Reference-glyph copy: provide the exact Arabic text as an input image and ask Qwen to preserve/copy it.</li>
+      <li>Background complexity: white card, textured poster, realistic sign, food infographic.</li>
+      <li>Instrument prompt embeddings and latents if we want to move from behavioral study to internals study.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Files</h2>
+    <ul>
+      <li><a href="../../notebooks/qwen_edit_text_failure_study.ipynb">Executed notebook</a></li>
+      <li><a href="assets/study/initial_qwen_api_matrix_reviewed.csv">Reviewed starter CSV</a></li>
+      <li><a href="assets/study/tokenizer_probe.csv">Tokenizer CSV</a></li>
+      <li><a href="assets/study/synthetic_controls.csv">Synthetic controls CSV</a></li>
+      <li><a href="assets/study/vae_reconstruction_metrics.csv">VAE metrics CSV</a></li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

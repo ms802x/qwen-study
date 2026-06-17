@@ -1,0 +1,10 @@
+lang,text,requested_font_size,actual_font_size,source_path
+english,AI PIZZA,96,96,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/english_font96_source.png
+english,AI PIZZA,48,48,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/english_font48_source.png
+english,AI PIZZA,24,24,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/english_font24_source.png
+arabic,بيتزا الذكاء الاصطناعي,96,43,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/arabic_font96_source.png
+arabic,بيتزا الذكاء الاصطناعي,48,43,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/arabic_font48_source.png
+arabic,بيتزا الذكاء الاصطناعي,24,24,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/arabic_font24_source.png
+chinese,人工智能披萨,96,69,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/chinese_font96_source.png
+chinese,人工智能披萨,48,48,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/chinese_font48_source.png
+chinese,人工智能披萨,24,24,/mnt/local-fast/aalhejab/Qwen-Image-Edit-2511-production/outputs/qwen_text_failure_study/synthetic_controls/chinese_font24_source.png

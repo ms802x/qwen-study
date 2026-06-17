@@ -1,0 +1,7 @@
+lang,text,chars,tokens,chars_per_token,token_ids,decoded_token_pieces,note
+english,AI PIZZA,8,4,2.0,"[15469, 393, 2843, 52336]","['AI', ' P', 'IZ', 'ZA']",Latin uppercase
+arabic,بيتزا الذكاء الاصطناعي,22,11,2.0,"[123938, 14293, 130010, 125621, 31073, 98719, 17166, 124291, 124723, 123862, 14558]","['بي', 'ت', 'زا', ' الذ', 'ك', 'اء', ' ال', 'اص', 'طن', 'اع', 'ي']",Arabic RTL phrase
+chinese,人工智能披萨,6,3,2.0,"[104455, 101488, 100841]","['人工智能', '披', '萨']",Simplified Chinese phrase
+english_short,MENU,4,1,4.0,[44129],['MENU'],Latin short word
+arabic_short,قائمة,5,3,1.667,"[27490, 123829, 124325]","['ق', 'ائ', 'مة']",Arabic short word
+chinese_short,菜单,2,1,2.0,[112166],['菜单'],Chinese short word

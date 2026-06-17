@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment 01: Text Size Sweep</title>
+  <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+<main>
+  <p class="breadcrumb"><a href="../">Text rendering study</a> / Next experiments</p>
+
+        <h1>Experiment 01: Text Size Sweep</h1>
+        <p class="lead">Tests whether requested text size changes success/failure across English, Arabic, and Chinese.</p>
+        <section>
+          <h2>Observed Result</h2>
+          <p>English stays correct at large, medium, and small sizes. Arabic is malformed even at large size, so this run does not support a simple low-resolution-only explanation. Chinese remains much stronger than Arabic under the same prompt template.</p>
+        </section>
+        <section>
+          <h2>Contact Sheet</h2>
+          <div class="sheet"><img src="../assets/next_experiments/exp_01_size_sweep/exp_01_size_sweep_contact_sheet.jpg" alt="Experiment 01: Text Size Sweep contact sheet"></div>
+        </section>
+        <section>
+          <h2>Individual Outputs</h2>
+          <div class="grid">
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_english_large.jpg" alt="English large">
+      <div class="caption"><strong>English large</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 92011</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_english_medium.jpg" alt="English medium">
+      <div class="caption"><strong>English medium</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 92012</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_english_small.jpg" alt="English small">
+      <div class="caption"><strong>English small</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 92013</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_arabic_large.jpg" alt="Arabic large">
+      <div class="caption"><strong>Arabic large</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 92011</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_arabic_medium.jpg" alt="Arabic medium">
+      <div class="caption"><strong>Arabic medium</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 92012</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_arabic_small.jpg" alt="Arabic small">
+      <div class="caption"><strong>Arabic small</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 92013</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_chinese_large.jpg" alt="Chinese large">
+      <div class="caption"><strong>Chinese large</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 92011</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_chinese_medium.jpg" alt="Chinese medium">
+      <div class="caption"><strong>Chinese medium</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 92012</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_01_size_sweep/t2i_chinese_small.jpg" alt="Chinese small">
+      <div class="caption"><strong>Chinese small</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 92013</div>
+    </div>
+    </div>
+        </section>
+        <section>
+          <h2>Prompts</h2>
+          <p><a href="../assets/next_experiments/exp_01_size_sweep/exp_01_size_sweep_results.csv">Download CSV for this experiment</a></p>
+          <table><thead><tr><th>Case</th><th>Seed</th><th>Prompt</th></tr></thead><tbody><tr><td>English large</td><td>92011</td><td>Create a plain white square poster with only the exact text &quot;AI PIZZA&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>English medium</td><td>92012</td><td>Create a plain white square poster with only the exact text &quot;AI PIZZA&quot; centered in medium-sized black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>English small</td><td>92013</td><td>Create a plain white square poster with only the exact text &quot;AI PIZZA&quot; centered in small but still readable black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Arabic large</td><td>92011</td><td>Create a plain white square poster with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Arabic medium</td><td>92012</td><td>Create a plain white square poster with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in medium-sized black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Arabic small</td><td>92013</td><td>Create a plain white square poster with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in small but still readable black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Chinese large</td><td>92011</td><td>Create a plain white square poster with only the exact text &quot;人工智能披萨&quot; centered in very large black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Chinese medium</td><td>92012</td><td>Create a plain white square poster with only the exact text &quot;人工智能披萨&quot; centered in medium-sized black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr><tr><td>Chinese small</td><td>92013</td><td>Create a plain white square poster with only the exact text &quot;人工智能披萨&quot; centered in small but still readable black clean sans-serif letters. No other text, no logo, no watermark, no decoration.</td></tr></tbody></table>
+        </section>
+        <section>
+          <h2>Review Note</h2>
+          <p class="note">These observations come from visual review of the rendered outputs, not OCR. Exact automated scoring should be added later with a text-aware evaluator.</p>
+        </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment 04: Background Complexity</title>
+  <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+<main>
+  <p class="breadcrumb"><a href="../">Text rendering study</a> / Next experiments</p>
+
+        <h1>Experiment 04: Background Complexity</h1>
+        <p class="lead">Tests whether visual context makes exact text rendering worse.</p>
+        <section>
+          <h2>Observed Result</h2>
+          <p>English and Chinese stay readable across plain sign, paper poster, and photo sign contexts. Arabic remains malformed in all three. Visual complexity can hurt text in general, but it is not the main cause of the Arabic failure seen here.</p>
+        </section>
+        <section>
+          <h2>Contact Sheet</h2>
+          <div class="sheet"><img src="../assets/next_experiments/exp_04_background_complexity/exp_04_background_complexity_contact_sheet.jpg" alt="Experiment 04: Background Complexity contact sheet"></div>
+        </section>
+        <section>
+          <h2>Individual Outputs</h2>
+          <div class="grid">
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/white_sign_english.jpg" alt="English on white sign">
+      <div class="caption"><strong>English on white sign</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 95100</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/paper_poster_english.jpg" alt="English on paper poster">
+      <div class="caption"><strong>English on paper poster</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 95101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/photo_sign_english.jpg" alt="English on photo sign">
+      <div class="caption"><strong>English on photo sign</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 95102</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/white_sign_arabic.jpg" alt="Arabic on white sign">
+      <div class="caption"><strong>Arabic on white sign</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 95100</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/paper_poster_arabic.jpg" alt="Arabic on paper poster">
+      <div class="caption"><strong>Arabic on paper poster</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 95101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/photo_sign_arabic.jpg" alt="Arabic on photo sign">
+      <div class="caption"><strong>Arabic on photo sign</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 95102</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/white_sign_chinese.jpg" alt="Chinese on white sign">
+      <div class="caption"><strong>Chinese on white sign</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 95100</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/paper_poster_chinese.jpg" alt="Chinese on paper poster">
+      <div class="caption"><strong>Chinese on paper poster</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 95101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_04_background_complexity/photo_sign_chinese.jpg" alt="Chinese on photo sign">
+      <div class="caption"><strong>Chinese on photo sign</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 95102</div>
+    </div>
+    </div>
+        </section>
+        <section>
+          <h2>Prompts</h2>
+          <p><a href="../assets/next_experiments/exp_04_background_complexity/exp_04_background_complexity_results.csv">Download CSV for this experiment</a></p>
+          <table><thead><tr><th>Case</th><th>Seed</th><th>Prompt</th></tr></thead><tbody><tr><td>English on white sign</td><td>95100</td><td>Create a perfectly plain white square poster with only the exact text &quot;AI PIZZA&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr><tr><td>English on paper poster</td><td>95101</td><td>Create a subtle cream paper poster with a thin gold border with only the exact text &quot;AI PIZZA&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr><tr><td>English on photo sign</td><td>95102</td><td>Create a realistic restaurant wall sign on a softly lit neutral wall with only the exact text &quot;AI PIZZA&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr><tr><td>Arabic on white sign</td><td>95100</td><td>Create a perfectly plain white square poster with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr><tr><td>Arabic on paper poster</td><td>95101</td><td>Create a subtle cream paper poster with a thin gold border with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr><tr><td>Arabic on photo sign</td><td>95102</td><td>Create a realistic restaurant wall sign on a softly lit neutral wall with only the exact text &quot;بيتزا الذكاء الاصطناعي&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr><tr><td>Chinese on white sign</td><td>95100</td><td>Create a perfectly plain white square poster with only the exact text &quot;人工智能披萨&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr><tr><td>Chinese on paper poster</td><td>95101</td><td>Create a subtle cream paper poster with a thin gold border with only the exact text &quot;人工智能披萨&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr><tr><td>Chinese on photo sign</td><td>95102</td><td>Create a realistic restaurant wall sign on a softly lit neutral wall with only the exact text &quot;人工智能披萨&quot; centered in large black clean sans-serif letters. No other text, no logo, no watermark.</td></tr></tbody></table>
+        </section>
+        <section>
+          <h2>Review Note</h2>
+          <p class="note">These observations come from visual review of the rendered outputs, not OCR. Exact automated scoring should be added later with a text-aware evaluator.</p>
+        </section>
+
+</main>
+</body>
+</html>

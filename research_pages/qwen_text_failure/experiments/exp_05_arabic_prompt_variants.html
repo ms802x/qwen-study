@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment 05: Arabic Prompt Variants</title>
+  <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+<main>
+  <p class="breadcrumb"><a href="../">Text rendering study</a> / Next experiments</p>
+
+        <h1>Experiment 05: Arabic Prompt Variants</h1>
+        <p class="lead">Tests whether prompt wording alone can repair Arabic text fidelity.</p>
+        <section>
+          <h2>Observed Result</h2>
+          <p>Quoted text, Unicode wording, explicit RTL instruction, an Arabic-language prompt, and word-level spelling instructions all fail to recover the target phrase. Prompt phrasing alone is therefore not a reliable fix for this Arabic case.</p>
+        </section>
+        <section>
+          <h2>Contact Sheet</h2>
+          <div class="sheet"><img src="../assets/next_experiments/exp_05_arabic_prompt_variants/exp_05_arabic_prompt_variants_contact_sheet.jpg" alt="Experiment 05: Arabic Prompt Variants contact sheet"></div>
+        </section>
+        <section>
+          <h2>Individual Outputs</h2>
+          <div class="grid">
+    <div class="card">
+      <img src="../assets/next_experiments/exp_05_arabic_prompt_variants/arabic_quoted_exact.jpg" alt="Arabic prompt variant: quoted exact">
+      <div class="caption"><strong>Arabic prompt variant: quoted exact</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 96100</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_05_arabic_prompt_variants/arabic_unicode_literal.jpg" alt="Arabic prompt variant: unicode literal">
+      <div class="caption"><strong>Arabic prompt variant: unicode literal</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 96101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_05_arabic_prompt_variants/arabic_rtl_instruction.jpg" alt="Arabic prompt variant: rtl instruction">
+      <div class="caption"><strong>Arabic prompt variant: rtl instruction</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 96102</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_05_arabic_prompt_variants/arabic_arabic_language_prompt.jpg" alt="Arabic prompt variant: arabic language prompt">
+      <div class="caption"><strong>Arabic prompt variant: arabic language prompt</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 96103</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_05_arabic_prompt_variants/arabic_token_spaced.jpg" alt="Arabic prompt variant: token spaced">
+      <div class="caption"><strong>Arabic prompt variant: token spaced</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 96104</div>
+    </div>
+    </div>
+        </section>
+        <section>
+          <h2>Prompts</h2>
+          <p><a href="../assets/next_experiments/exp_05_arabic_prompt_variants/exp_05_arabic_prompt_variants_results.csv">Download CSV for this experiment</a></p>
+          <table><thead><tr><th>Case</th><th>Seed</th><th>Prompt</th></tr></thead><tbody><tr><td>Arabic prompt variant: quoted exact</td><td>96100</td><td>Create a plain white square poster with only this exact Arabic text centered: &quot;بيتزا الذكاء الاصطناعي&quot;. No other text. No logo, no watermark, no decoration.</td></tr><tr><td>Arabic prompt variant: unicode literal</td><td>96101</td><td>Render the exact Unicode Arabic string &quot;بيتزا الذكاء الاصطناعي&quot; as text. Keep the characters and order unchanged. Plain white square poster. No logo, no watermark, no decoration.</td></tr><tr><td>Arabic prompt variant: rtl instruction</td><td>96102</td><td>Create a plain white square poster. Write exactly &quot;بيتزا الذكاء الاصطناعي&quot; in Arabic, right-to-left, centered, large black letters. Do not translate or substitute words. No logo, no watermark, no decoration.</td></tr><tr><td>Arabic prompt variant: arabic language prompt</td><td>96103</td><td>صمّم ملصقاً أبيض بسيطاً يحتوي فقط على النص التالي في الوسط: &quot;بيتزا الذكاء الاصطناعي&quot;. لا تضف أي نص آخر. No logo, no watermark, no decoration.</td></tr><tr><td>Arabic prompt variant: token spaced</td><td>96104</td><td>Create a plain white square poster with only the exact Arabic phrase &quot;بيتزا الذكاء الاصطناعي&quot;. The words are: &quot;بيتزا&quot; then &quot;الذكاء&quot; then &quot;الاصطناعي&quot;. No logo, no watermark, no decoration.</td></tr></tbody></table>
+        </section>
+        <section>
+          <h2>Review Note</h2>
+          <p class="note">These observations come from visual review of the rendered outputs, not OCR. Exact automated scoring should be added later with a text-aware evaluator.</p>
+        </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment 03: Reference Glyph Copy</title>
+  <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+<main>
+  <p class="breadcrumb"><a href="../">Text rendering study</a> / Next experiments</p>
+
+        <h1>Experiment 03: Reference Glyph Copy</h1>
+        <p class="lead">Tests whether already-rendered reference glyphs help Qwen copy or preserve exact text.</p>
+        <section>
+          <h2>Observed Result</h2>
+          <p>This is the key positive control. When the exact Arabic glyphs are provided visually, Qwen can preserve and copy the Arabic text cleanly. That argues against the VAE or image latent path being fundamentally unable to represent Arabic; the weak point is more likely text-conditioned glyph synthesis.</p>
+        </section>
+        <section>
+          <h2>Contact Sheet</h2>
+          <div class="sheet"><img src="../assets/next_experiments/exp_03_reference_glyph_copy/exp_03_reference_glyph_copy_contact_sheet.jpg" alt="Experiment 03: Reference Glyph Copy contact sheet"></div>
+        </section>
+        <section>
+          <h2>Individual Outputs</h2>
+          <div class="grid">
+    <div class="card">
+      <img src="../assets/next_experiments/exp_03_reference_glyph_copy/copy_ref_to_blank_english.jpg" alt="English copy glyph reference to blank">
+      <div class="caption"><strong>English copy glyph reference to blank</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 94101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_03_reference_glyph_copy/preserve_existing_text_english.jpg" alt="English preserve existing text">
+      <div class="caption"><strong>English preserve existing text</strong><br>
+      target: <span class="">AI PIZZA</span><br>
+      seed 94102</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_03_reference_glyph_copy/copy_ref_to_blank_arabic.jpg" alt="Arabic copy glyph reference to blank">
+      <div class="caption"><strong>Arabic copy glyph reference to blank</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 94101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_03_reference_glyph_copy/preserve_existing_text_arabic.jpg" alt="Arabic preserve existing text">
+      <div class="caption"><strong>Arabic preserve existing text</strong><br>
+      target: <span class="rtl">بيتزا الذكاء الاصطناعي</span><br>
+      seed 94102</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_03_reference_glyph_copy/copy_ref_to_blank_chinese.jpg" alt="Chinese copy glyph reference to blank">
+      <div class="caption"><strong>Chinese copy glyph reference to blank</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 94101</div>
+    </div>
+
+
+    <div class="card">
+      <img src="../assets/next_experiments/exp_03_reference_glyph_copy/preserve_existing_text_chinese.jpg" alt="Chinese preserve existing text">
+      <div class="caption"><strong>Chinese preserve existing text</strong><br>
+      target: <span class="cjk">人工智能披萨</span><br>
+      seed 94102</div>
+    </div>
+    </div>
+        </section>
+        <section>
+          <h2>Prompts</h2>
+          <p><a href="../assets/next_experiments/exp_03_reference_glyph_copy/exp_03_reference_glyph_copy_results.csv">Download CSV for this experiment</a></p>
+          <table><thead><tr><th>Case</th><th>Seed</th><th>Prompt</th></tr></thead><tbody><tr><td>English copy glyph reference to blank</td><td>94101</td><td>Edit Image 1 by writing exactly &quot;AI PIZZA&quot; centered on the card. Use Image 2 only as the visual glyph reference for the exact text shapes and order. Preserve the blank cream card and border. No other text, no logo, no watermark.</td></tr><tr><td>English preserve existing text</td><td>94102</td><td>Preserve the exact existing text &quot;AI PIZZA&quot; and make the card slightly cleaner and sharper. Do not change any letters, language, order, or spelling. No other text, no logo, no watermark.</td></tr><tr><td>Arabic copy glyph reference to blank</td><td>94101</td><td>Edit Image 1 by writing exactly &quot;بيتزا الذكاء الاصطناعي&quot; centered on the card. Use Image 2 only as the visual glyph reference for the exact text shapes and order. Preserve the blank cream card and border. No other text, no logo, no watermark.</td></tr><tr><td>Arabic preserve existing text</td><td>94102</td><td>Preserve the exact existing text &quot;بيتزا الذكاء الاصطناعي&quot; and make the card slightly cleaner and sharper. Do not change any letters, language, order, or spelling. No other text, no logo, no watermark.</td></tr><tr><td>Chinese copy glyph reference to blank</td><td>94101</td><td>Edit Image 1 by writing exactly &quot;人工智能披萨&quot; centered on the card. Use Image 2 only as the visual glyph reference for the exact text shapes and order. Preserve the blank cream card and border. No other text, no logo, no watermark.</td></tr><tr><td>Chinese preserve existing text</td><td>94102</td><td>Preserve the exact existing text &quot;人工智能披萨&quot; and make the card slightly cleaner and sharper. Do not change any letters, language, order, or spelling. No other text, no logo, no watermark.</td></tr></tbody></table>
+        </section>
+        <section>
+          <h2>Review Note</h2>
+          <p class="note">These observations come from visual review of the rendered outputs, not OCR. Exact automated scoring should be added later with a text-aware evaluator.</p>
+        </section>
+
+</main>
+</body>
+</html>
